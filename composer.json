@@ -7,10 +7,6 @@
         }
     ],
     "require": {
-    	"mustache/mustache": "dev-master",
-    	"kendu/sb-admin-2": "dev-master"
-    },
-    "autoload": {
-        "psr-4": {"Person\\": "Person/"}
+    	"mustache/mustache": "dev-master"
     }
 }

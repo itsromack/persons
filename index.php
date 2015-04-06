@@ -1,3 +1,5 @@
 <?php
-require 'vendor/autoload.php';
-require 'config.php';
+require 'common.php';
+
+$view = new IndexView($db);
+echo $view->render();

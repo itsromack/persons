@@ -2,7 +2,11 @@
 require 'vendor/autoload.php';
 require 'config.php';
 
+require_once("src/Person/Person.php");
+require_once("src/Person/PersonDAO.php");
+
 function test_insert() {
+	global $db;
 	$birthdate = new \DateTime('1982-11-19');
 
 	$person = new Person(array(
@@ -22,4 +26,13 @@ function test_insert() {
 	}
 }
 
+
+function test_get_all() {
+	global $db;
+	$personDao = new PersonDAO($db);
+	$persons = $personDao->getAllPersons();
+	var_dump($persons);
+}
+
 test_insert();
+test_get_all();

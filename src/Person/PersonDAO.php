@@ -8,25 +8,35 @@ class PersonDAO {
 	}
 
 	public function create(Person $person) {
-		$statement = $this->pdo->prepare('
-			INSERT INTO tblpersons (first_name, last_name, birthdate, gender, home_address)
-			VALUES (
-				:first_name,
-				:last_name,
-				:birthdate,
-				:gender,
-				:home_address
-			)
-		');
-		$statement->execute(array(
-			':first_name' => $person->getFirstName(),
-			':last_name' => $person->getLastName(),
-			':birthdate' => $person->getBirthdate(),
-			':gender' => $person->getGender(true),
-			':home_address' => $person->getHomeAddress()
-		));
-		if ($statement->rowCount()) {
-			return true;
+		try {
+			$statement = $this->pdo->prepare('
+				INSERT INTO tblpersons (
+					first_name,
+					last_name,
+					birthdate,
+					gender,
+					home_address
+				)
+				VALUES (
+					:first_name,
+					:last_name,
+					:birthdate,
+					:gender,
+					:home_address
+				)
+			');
+			$statement->execute(array(
+				':first_name' => $person->getFirstName(),
+				':last_name' => $person->getLastName(),
+				':birthdate' => $person->getBirthdate(),
+				':gender' => $person->getGender(true),
+				':home_address' => $person->getHomeAddress()
+			));
+			if ($statement->rowCount()) {
+				return true;
+			}
+		} catch (PDOException $e) {
+			error_log($e->getMessage());
 		}
 		return false;
 	}
@@ -107,13 +117,10 @@ class PersonDAO {
 			FROM tblpersons
 			WHERE deleted IS NULL
 		');
-		if ($statement->rowCount()) {
-			$persons = arrray();
-			while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
-				$persons[] = new Person($row);
-			}
-			return $persons;
+		$persons = array();
+		while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+			$persons[] = $row;
 		}
-		return false;
+		return $persons;
 	}
 }
