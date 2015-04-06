@@ -47,7 +47,7 @@ class PersonDAO {
 				id,
 				first_name firstName,
 				last_name lastName,
-				birthdate,
+				DATE_FORMAT(birthdate, "%Y-%m-%d") birthdate,
 				gender,
 				home_address homeAddress
 			FROM tblpersons
@@ -59,7 +59,6 @@ class PersonDAO {
 			'id' => $id
 		));
 		if ($statement->rowCount()) {
-			$persons = arrray();
 			$row = $statement->fetch(PDO::FETCH_ASSOC);
 			return new Person($row);
 		}
@@ -80,7 +79,7 @@ class PersonDAO {
 			':first_name' => $person->getFirstName(),
 			':last_name' => $person->getLastName(),
 			':birthdate' => $person->getBirthdate(),
-			':gender' => $person->getGender(),
+			':gender' => $person->getGender(true),
 			':home_address' => $person->getHomeAddress(),
 			':id' => $person->getId()
 		));
@@ -91,16 +90,18 @@ class PersonDAO {
 	}
 
 	public function delete($id) {
-		$statement = $this->pdo->prepare('
-			UPDATE tblpersons SET
-				deleted = NOW()
-			WHERE id = :id
-		');
-		$statement->execute(array(
-			':id' => $person->getId()
-		));
-		if ($statement->rowCount()) {
+		try {
+			$statement = $this->pdo->prepare('
+				UPDATE tblpersons SET
+					deleted = NOW()
+				WHERE id = :id
+			');
+			$statement->execute(array(
+				':id' => $id
+			));
 			return true;
+		} catch (PDOException $e) {
+			error_log($e->getMessage());
 		}
 		return false;
 	}
@@ -111,7 +112,7 @@ class PersonDAO {
 				id,
 				first_name firstName,
 				last_name lastName,
-				birthdate,
+				DATE_FORMAT(birthdate, "%M %e, %Y") birthdate,
 				gender,
 				home_address homeAddress
 			FROM tblpersons
