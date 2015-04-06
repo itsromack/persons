@@ -51,7 +51,7 @@ class Person {
 		$this->birthdate = $birthdate;
 	}
 
-	public function getGender($isForDB) {
+	public function getGender($isForDB = false) {
 		if (in_array($gender, array(Gender::GENDER_MALE, Gender::MALE)) {
 			return ($isForDB) ? Gender::GENDER_MALE : Gender::MALE;
 		} elseif (in_array($gender, array(Gender::GENDER_FEMALE, Gender::FEMALE)) {

@@ -3,7 +3,8 @@ CREATE TABLE `tblpersons` (
   `first_name` varchar(50) DEFAULT NULL,
   `last_name` varchar(50) DEFAULT NULL,
   `birthdate` datetime DEFAULT NULL,
-  `gender` enum('M', 'F') DEFAULT NULL,
+  `gender` enum('M','F') DEFAULT NULL,
   `home_address` varchar(500) DEFAULT NULL,
+  `deleted` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
