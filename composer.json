@@ -1,0 +1,16 @@
+{
+    "name": "mds/romack",
+    "authors": [
+        {
+            "name": "Romack Natividad",
+            "email": "romacknatividad@gmail.com"
+        }
+    ],
+    "require": {
+    	"mustache/mustache": "dev-master",
+    	"kendu/sb-admin-2": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {"Person\\": "Person/"}
+    }
+}
